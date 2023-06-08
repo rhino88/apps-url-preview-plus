@@ -489,6 +489,18 @@ const converters = [
         // URL isn't for a supported Google url format
         return null;
     },
+    function getOpenGraphImageUrl(url) {
+        fetch(url).then(response => response.text()).then(html => {
+            const match = html.match(/<meta property="og:image" content="([^"]+)"\/>/);
+            if (match) {
+                return match[1];
+            }
+
+            return null;
+        }).catch(error => {
+            return null;
+        });
+    }
 ];
 
 initializeBlock(() => <UrlPreviewApp />);
